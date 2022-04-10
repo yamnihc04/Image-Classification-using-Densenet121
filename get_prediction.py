@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 from PIL import Image
 from torchvision import models
 
-
+# function to transform image
 def transform_image(image_bytes):
     my_transforms = transforms.Compose([transforms.Resize(255),
                                         transforms.CenterCrop(224),
@@ -17,6 +17,7 @@ def transform_image(image_bytes):
     image = Image.open(io.BytesIO(image_bytes))
     return my_transforms(image).unsqueeze(0)
 
+# function to get category
 def get_category(model, imagenet_class_mapping, image_path):
     with open(image_path, 'rb') as file:
         image_bytes = file.read()
@@ -28,6 +29,7 @@ def get_category(model, imagenet_class_mapping, image_path):
     predicted_idx = str(category.item())
     return imagenet_class_mapping[predicted_idx]
 
+# get prediction
 def get_prediction(model, imagenet_class_mapping, path_to_directory):
     files = glob.glob(path_to_directory+'/*')
     image_with_tags = {}
